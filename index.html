@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>闪卡学习 - 暗色简洁版</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" type="image/gif">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部简洁标题栏 -->
+        <header class="app-header">
+            <div class="header-left">
+                <button class="menu-btn" id="menu-btn" title="打开菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="app-title">闪卡学习</h1>
+            </div>
+            <div class="header-right">
+                <div class="progress-indicator">
+                    <span id="current-card">1</span>/<span id="total-card">73</span>
+                </div>
+                <div class="progress-circle">
+                    <div class="circle-background"></div>
+                    <div class="circle-progress" id="circle-progress"></div>
+                    <span class="progress-percent" id="progress-percent">0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区域 -->
+        <main class="app-main">
+            <!-- 闪卡区域 -->
+            <div class="card-section">
+                <div class="card-container">
+                    <div class="card" id="flashcard">
+                        <div class="card-front">
+                            <div class="card-header">
+                                <span class="card-type" id="card-type">名词解释</span>
+                                <span class="card-number">#<span id="card-num">1</span></span>
+                            </div>
+                            <div class="card-content">
+                                <h2 id="question">加载中...</h2>
+                                <div class="hint">
+                                    <i class="fas fa-hand-point-up"></i>
+                                    <span>点击卡片查看答案</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>点击翻转</span>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="card-header">
+                                <span class="card-type">答案</span>
+                                <span class="card-number">#<span id="card-num-back">1</span></span>
+                            </div>
+                            <div class="card-content">
+                                <h3>答案</h3>
+                                <div class="answer-content">
+                                    <p id="answer">加载中...</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>点击返回</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 主要控制按钮 -->
+                <div class="main-controls">
+                    <button class="control-btn btn-prev" id="prev-btn" title="上一张 (←)">
+                        <i class="fas fa-chevron-left"></i>
+                        <span class="btn-label">上一张</span>
+                    </button>
+
+                    <div class="center-controls">
+                        <button class="icon-btn" id="flip-btn" title="翻转卡片 (空格)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="icon-btn" id="mark-learned-btn" title="标记为已学习 (M)">
+                            <i class="fas fa-check-circle"></i>
+                        </button>
+                    </div>
+
+                    <button class="control-btn btn-next" id="next-btn" title="下一张 (→)">
+                        <span class="btn-label">下一张</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- 次要控制按钮 -->
+                <div class="secondary-controls">
+                    <button class="small-btn" id="shuffle-btn" title="随机打乱 (R)">
+                        <i class="fas fa-random"></i>
+                        <span>随机</span>
+                    </button>
+                    <button class="small-btn" id="reset-btn" title="重置进度">
+                        <i class="fas fa-redo"></i>
+                        <span>重置</span>
+                    </button>
+                    <button class="small-btn" id="settings-btn" title="设置">
+                        <i class="fas fa-cog"></i>
+                        <span>设置</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 可折叠面板 -->
+            <div class="collapsible-panel" id="side-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-sliders-h"></i> 设置与列表</h3>
+                    <button class="close-panel" id="close-panel">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="panel-content">
+                    <!-- 设置部分 -->
+                    <div class="panel-section">
+                        <h4><i class="fas fa-cog"></i> 学习设置</h4>
+                        <div class="settings">
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-clock"></i>
+                                    <span>自动翻转</span>
+                                </label>
+                                <div class="setting-control">
+                                    <input type="range" id="auto-flip-range" min="0" max="10" value="0">
+                                    <span class="setting-value" id="auto-flip-value">关闭</span>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-font"></i>
+                                    <span>字体大小</span>
+                                </label>
+                                <div class="setting-control">
+                                    <input type="range" id="font-size-range" min="14" max="24" value="18">
+                                    <span class="setting-value" id="font-size-value">中</span>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <label>
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>动画速度</span>
+                                </label>
+                                <div class="setting-control">
+                                    <input type="range" id="animation-speed-range" min="1" max="10" value="5">
+                                    <span class="setting-value" id="animation-speed-value">中</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 卡片列表部分 -->
+                    <div class="panel-section">
+                        <h4><i class="fas fa-list"></i> 卡片列表</h4>
+                        <div class="card-list" id="card-list">
+                            <!-- 卡片列表将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+
+                    <!-- 统计部分 -->
+                    <div class="panel-section">
+                        <h4><i class="fas fa-chart-line"></i> 学习统计</h4>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="total-cards">73</div>
+                                <div class="stat-label">总卡片</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="learned-cards">0</div>
+                                <div class="stat-label">已学习</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="progress">0%</div>
+                                <div class="stat-label">进度</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="loaded-cards">73</div>
+                                <div class="stat-label">已加载</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快捷操作 -->
+                    <div class="panel-section">
+                        <h4><i class="fas fa-bolt"></i> 快捷操作</h4>
+                        <div class="quick-actions">
+                            <button class="action-btn" id="export-btn">
+                                <i class="fas fa-download"></i>
+                                <span>导出进度</span>
+                            </button>
+                            <button class="action-btn" id="import-btn">
+                                <i class="fas fa-upload"></i>
+                                <span>导入进度</span>
+                            </button>
+                            <button class="action-btn" id="help-btn">
+                                <i class="fas fa-question-circle"></i>
+                                <span>帮助</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 面板遮罩 -->
+            <div class="panel-overlay" id="panel-overlay"></div>
+        </main>
+    </div>
+
+    <!-- 模态框（帮助） -->
+    <div class="modal" id="help-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-question-circle"></i> 帮助</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>如何使用闪卡学习系统</h3>
+                <p>这是一个基于CSV文件的闪卡学习系统，可以帮助您高效记忆知识点。</p>
+
+                <h4>基本操作：</h4>
+                <ul>
+                    <li><strong>翻转卡片</strong>: 点击卡片或按空格键</li>
+                    <li><strong>导航</strong>: 使用上一张/下一张按钮或键盘左右箭头键</li>
+                    <li><strong>标记已学习</strong>: 点击✓按钮标记当前卡片为已学习</li>
+                    <li><strong>随机学习</strong>: 点击随机按钮打乱卡片顺序</li>
+                    <li><strong>重置进度</strong>: 点击重置按钮清除所有学习标记</li>
+                </ul>
+
+                <h4>数据格式：</h4>
+                <p>系统从 <code>flashcards.csv</code> 文件加载数据，每行格式为：<code>问题,答案</code></p>
+
+                <h4>快捷键：</h4>
+                <div class="shortcuts">
+                    <div class="shortcut-item">
+                        <kbd>←</kbd>
+                        <span>上一张卡片</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>→</kbd>
+                        <span>下一张卡片</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>空格</kbd>
+                        <span>翻转卡片</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>M</kbd>
+                        <span>标记已学习</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>R</kbd>
+                        <span>随机打乱</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
